@@ -1,0 +1,15 @@
+{
+  "name": "spider-trending",
+  "version": "0.0.1",
+  "description": "a spider for github trending",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "xiedacon",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^1.0.0-rc.1",
+    "superagent": "^3.5.2"
+  }
+}
