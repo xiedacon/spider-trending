@@ -3,30 +3,30 @@
 const downloader = require('./downloader')
 const parser = require('./parser')
 const store = require('./store')
+const cron = require('./cron')
 
 const baseUrl = 'https://github.com/trending'
 
 const job = (cycle) => {
-  let timeout
   let url = `${baseUrl}?since=${cycle}`
 
   // 使用redis或node-cron或node-schedule替换，倾向于redis
   let time
   switch (cycle) {
     case 'daily':
-      time = 24 * 60 * 60 * 1000
+      time = 24 * 60 * 60
       break
     case 'weekly':
-      time = 7 * 24 * 60 * 60 * 1000
+      time = 7 * 24 * 60 * 60
       break
     case 'monthly':
-      time = 30 * 24 * 60 * 60 * 1000
+      time = 30 * 24 * 60 * 60
       break
     default:
       throw new Error()
   }
 
-  let job = {
+  let task = {
     start: async () => {
       let html = await downloader.get(url)
       let languages = parser.getLanguages(html)
@@ -41,16 +41,13 @@ const job = (cycle) => {
         data: data
       })
 
-      timeout = setTimeout(function () {
-        job.start()
-      }, time)
+      this.j = await cron(task.start, time)
     },
     stop: () => {
-      clearTimeout(timeout)
+      this.j.cancel()
     }
   }
-
-  return job
+  return task
 }
 
 let daily, weekly, monthly
