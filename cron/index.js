@@ -3,6 +3,7 @@
 const redis = require('redis')
 const { redisConfig } = require('../config.js')
 const uuid = require('uuid')
+const logger = require('../logger.js')
 
 const jobs = {}
 const sub = redis.createClient(redisConfig)
@@ -28,10 +29,7 @@ module.exports = async (job, time) => {
     return { cancel: () => { delete jobs[taskId] } }
   } catch (error) {
     delete jobs[taskId]
-    console.error(`Failed to generate task`)
-    console.error(`  time: ${time}`)
-    console.error(`  function: ${job.toString()}`)
-    console.error(`  error: ${error}`)
+    logger.error(`Failed to generate task. {time: ${time}, function: ${job.toString()}， error: ${error}}`)
 
     return { cancel: () => { } }
   }

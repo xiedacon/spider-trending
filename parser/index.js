@@ -1,6 +1,7 @@
 'use strict'
 
 const cheerio = require('cheerio')
+const logger = require('../logger.js')
 
 module.exports = {
   getRepos: (text) => {
@@ -36,9 +37,7 @@ module.exports = {
           starIncrease: starIncrease
         }
       } catch (error) {
-        console.error('ParseError: ' + error.stack)
-        console.error('can not parse: ')
-        console.error(ele.html())
+        logger.error('ParseError: ' + error.stack)
       }
     })
   },

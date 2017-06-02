@@ -4,6 +4,7 @@ const downloader = require('./downloader')
 const parser = require('./parser')
 const store = require('./store')
 const cron = require('./cron')
+const logger = require('./logger.js')
 
 const baseUrl = 'https://github.com/trending'
 
@@ -28,6 +29,9 @@ const job = (cycle) => {
 
   let task = {
     start: async () => {
+      let t = Date.now()
+      logger.log('TASK: start get ' + cycle)
+
       let html = await downloader.get(url)
       let languages = parser.getLanguages(html)
 
@@ -40,7 +44,7 @@ const job = (cycle) => {
         cycle: cycle,
         data: data
       })
-
+      logger.log(`TASK: finish get ${cycle} [${Date.now() - t}ms]`)
       this.j = await cron(task.start, time)
     },
     stop: () => {
