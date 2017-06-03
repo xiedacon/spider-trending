@@ -1,7 +1,8 @@
 # spider-trending
 
 [![Build Status](https://travis-ci.org/xiedacon/spider-trending.svg?branch=master)](https://travis-ci.org/xiedacon/spider-trending)
-[![license](https://img.shields.io/github/license/mashape/apistatus.svg)]()
+[![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](https://github.com/xiedacon/spider-trending/blob/master/LICENSE)
 
 专门用于爬取 [github trending](https://github.com/trending) 的爬虫
 
