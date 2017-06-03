@@ -4,7 +4,7 @@
   "description": "a spider for github trending",
   "main": "app.js",
   "scripts": {
-    "start":"node app.js",
+    "start": "node app.js",
     "test": "standard"
   },
   "author": "xiedacon",
@@ -15,5 +15,12 @@
     "redis": "^2.7.1",
     "superagent": "^3.5.2",
     "uuid": "^3.0.1"
+  },
+  "bugs": {
+    "url": "https://github.com/xiedacon/spider-trending/issues"
+  },
+  "homepage": "https://github.com/xiedacon/spider-trending#readme",
+  "devDependencies": {
+    "istanbul": "^1.0.0-alpha.2"
   }
 }
