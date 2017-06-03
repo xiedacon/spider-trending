@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/xiedacon/spider-trending#readme",
   "devDependencies": {
-    "istanbul": "^1.0.0-alpha.2"
+    "standard": "^10.0.2"
   }
 }
