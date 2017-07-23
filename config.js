@@ -11,7 +11,7 @@ module.exports = {
     db: 1 // 防止污染db 0
   },
   download: {
-    retry: true,
+    retry: 5,
     timeout: {
       response: 10 * 1000,
       deadline: 60 * 1000

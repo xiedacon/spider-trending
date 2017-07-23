@@ -1,29 +1,38 @@
 'use strict'
 
 const request = require('superagent')
-const { download: config } = require('../config.js')
+const { download: { retry, timeout } } = require('../config.js')
 const logger = require('../logger.js')
 
-const downloader = module.exports = {
+module.exports = {
   get: async (url) => {
-    try {
-      let t = Date.now()
-      logger.debug('DOWNLOADER: start get ' + url)
+    let t = Date.now()
+    logger.debug('DOWNLOADER: start GET ' + url)
 
-      let { text: html } = await request
-        .get(url)
-        .timeout(config.timeout)
+    let html = tryGet(url)
 
-      logger.debug(`DOWNLOADER: finish get ${url} [${Date.now() - t}ms]`)
-      return html
-    } catch (error) {
-      logger.error('NetError: ' + error.toString())
+    logger.debug(`DOWNLOADER: finish GET ${url} [${Date.now() - t}ms]`)
 
-      if (config.retry) {
-        logger.debug('DOWNLOADER: retry GET ' + url)
-        return downloader.get(url)
-      }
-      return ''
+    return html
+  }
+}
+
+async function tryGet (url, times = 0) {
+  try {
+    let { text: html } = await request
+      .get(url)
+      .timeout(timeout)
+
+    return html
+  } catch (error) {
+    logger.error('NetError: ' + error.toString())
+
+    if (retry && times < retry) {
+      logger.error('DOWNLOADER: retry GET ' + url)
+      return tryGet(url, times++)
     }
+
+    logger.error('DOWNLOADER: fail retry GET ' + url)
+    throw error
   }
 }
