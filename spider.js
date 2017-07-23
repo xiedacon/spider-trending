@@ -41,7 +41,7 @@ const job = (cycle) => {
       })
 
       store.save({
-        cycle: cycle,
+        path: cycle,
         data: data
       })
       logger.log(`TASK: finish get ${cycle} [${Date.now() - t}ms]`)
